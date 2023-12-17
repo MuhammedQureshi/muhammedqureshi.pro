@@ -1,0 +1,130 @@
+---
+title: 'A Step-by-Step Guide to the CS50 Readability Solution'
+publishedAt: '2023-09-01'
+summary: 'A quick walkthrough overview of the CS50 Readability Solution.'
+tags: ["Big Data", "Python"]
+shortTitle: 'CS50 Readability Solution'
+---
+
+# Introduction
+
+In this blog post, we will walk through the solution to the readability problem from CS50’s Problem Set 2. The problem requires us to write a program that calculates the readability grade level of a given text using the Coleman-Liau index. We will explain the code step by step, highlighting key concepts and functions used.
+
+## Step 1: Including Required Libraries
+The first step in the code is to include the necessary libraries:
+
+```
+#include <cs50.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+```
+These libraries provide functions for user input (get_string), character manipulation (isalpha), mathematical calculations (round), string manipulation (strlen), and standard input/output (printf).
+
+## Step 2: Function Declarations
+Before the main function, we declare three helper functions: count_letters, count_words, and count_sen. These functions will be defined later and used to count the number of letters, words, and sentences in the text.
+
+## Step 3: Main Function
+The main function serves as the entry point for the program. It prompts the user to enter the text and calculates the readability index based on the input.
+
+```
+int main(void)
+{
+    // Prompt for user input
+    string text = get_string("Text: ");
+
+    // Find length of text
+    int length = strlen(text);
+
+    // Count letters, words, and sentences
+    int letters = count_letters(text, length);
+    int words = count_words(text, length);
+    int sens = count_sen(text, length);
+
+    // Calculate the average number of letters and sentences per 100 words
+    float L = ((100.0 / words) * letters);
+    float S = ((100.0 / words) * sens);
+
+    // Calculate the readability grade
+    float index = 0.0588 * L - 0.296 * S - 15.8;
+    index = round(index);
+
+    // Output the grade
+    if (index < 1)
+    {
+        printf("Before Grade 1\n");
+    }
+    else if (index > 0 && index < 16)
+    {
+        printf("Grade %i\n", (int) index);
+    }
+    else
+    {
+        printf("Grade 16+\n");
+    }
+}
+```
+
+## Step 4: Counting Letters
+The count_letters function takes the input text and its length as parameters and counts the number of letters in the text. It iterates over each character and checks if it is alphabetic using the isalpha function. If it is, the count is incremented.
+
+```
+float count_letters(string text, int str_length)
+{
+    int letters = 0;
+
+    for (int i = 0; i < str_length; i++)
+    {
+        if (isalpha(text[i]) != 0)
+        {
+            letters++;
+        }
+    }
+
+    return letters;
+}
+```
+
+## Step 5: Counting Words
+The count_words function counts the number of words in the text. It iterates over each character and checks if it is a space character (ASCII code 32). If it is, the count is incremented. The final count is returned by adding 1 to account for the last word.
+
+```
+float count_words(string text, int str_length)
+{
+    int words = 0;
+
+    for (int i = 0; i < str_length; i++)
+    {
+        if (text[i] == 32)
+        {
+            words++;
+        }
+    }
+
+    return words + 1;
+}
+```
+
+## Step 6: Counting Sentences
+The count_sen function counts the number of sentences in the text. It iterates over each character and checks if it is a period ('.'), exclamation mark ('!'), or question mark ('?'). If it is, the count is incremented.
+
+```
+float count_sen(string text, int str_length)
+{
+    int sens = 0;
+
+    for (int i = 0; i < str_length; i++)
+    {
+        if (text[i] == '.' || text[i] == '!' || text[i] == '?')
+        {
+            sens++;
+        }
+    }
+
+    return sens;
+}
+```
+### Additional Resources
+If you’d like to explore the complete code for the CS50 readability problem solution, you can find it in my GitHub repository. The repository contains the entire code, including the main function and the helper functions.
+
