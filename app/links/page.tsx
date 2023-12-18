@@ -1,7 +1,14 @@
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "@/components/ui/Link";
 import ConnectLinks from "@/components/ConnectLinks";
 import avatar from "public/avatar.png";
+
+export const metadata: Metadata = {
+  title: "Contact | Muhammed Qureshi",
+  description:
+    "Contact me through the links.",
+};
 
 export default function Links() {
   return (
